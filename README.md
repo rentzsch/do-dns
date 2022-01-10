@@ -47,7 +47,6 @@ $ do-dns download --dir .
 example.com
 redshed.net
 rentzsch.com
-water.lc
 $ ls -l
 -rw-r--r--  1 wolf  staff   662 Jan  9 21:51 example.com.do-dns.json
 -rw-r--r--  1 wolf  staff   335 Jan  9 21:51 example.com.zone.txt
@@ -69,6 +68,4 @@ creating example.com
   creating @ NS ns2.digitalocean.com. resource record
   creating @ NS ns3.digitalocean.com. resource record
   creating @ A 159.203.207.84 resource record
-$ 
-
 ```
