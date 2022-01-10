@@ -7,6 +7,8 @@ import yargs, { CommandModule, Arguments } from "yargs";
 import fs from "fs";
 import path from "path";
 
+//--
+
 export default {
   command: "backup",
   describe: "Downloads all DNS information",
