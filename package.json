@@ -1,7 +1,7 @@
 {
   "name": "do-dns",
   "version": "0.1.0",
-  "description": "Command-line tool for backing up Digital Ocean DNS records",
+  "description": "Command-line tool for downloading and uploading Digital Ocean DNS records",
   "license": "MIT",
   "bin": "do-dns",
   "scripts": {
@@ -21,5 +21,21 @@
   },
   "engines": {
     "node": ">=16"
+  },
+  "files": [
+    "build"
+  ],
+  "keywords": [
+    "digital ocean",
+    "digitalocean",
+    "dns",
+    "backup",
+    "download",
+    "upload",
+    "migrate"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rentzsch/do-dns.git"
   }
 }
