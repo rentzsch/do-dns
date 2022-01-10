@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "description": "Command-line tool for downloading and uploading Digital Ocean DNS records",
   "license": "MIT",
-  "bin": "do-dns",
+  "bin": {
+    "do-dns": "./build/do-dns.js"
+  },
   "scripts": {
     "clean": "rm -rf build",
     "build": "tsc",
