@@ -119,7 +119,6 @@ async function uploadCmd(args: Arguments) {
     "",
     true
   )) as DomainRecordRequestOptionsWithID[];
-  console.log({ prepopulatedDomainRecs });
 
   // Remove highest-level SOA record from queue of records to delete.
   prepopulatedDomainRecs = prepopulatedDomainRecs.filter(
@@ -156,7 +155,7 @@ async function uploadCmd(args: Arguments) {
       ttl: recordItr.ttl,
       tag: recordItr.tag === null ? "" : recordItr.tag,
     };
-    console.log({ newRecOpts });
+    // console.log({ newRecOpts });
     await betterHTTPErrorReporting(async function () {
       await digitalOceanWrapper.domains.createRecord(domain.name, newRecOpts);
     });
