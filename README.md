@@ -1,8 +1,8 @@
 # do-dns
 
-**do-dns** is a command-line tool for downloading and uploading Digital Ocean DNS records.
+**do-dns** is a command-line tool for downloading and uploading [Digital Ocean](https://www.digitalocean.com/) DNS records.
 
-It uses the current access key you manage with `doctl auth`.
+It uses the current access key you manage with <code><a href="https://docs.digitalocean.com/reference/doctl/reference/auth/">doctl auth</a></code>.
 
 Given that context, it can:
 
@@ -36,5 +36,39 @@ git commit -m "do-dns download `date '+%Y-%m-%d'`"
 This example combines `do-dns` with `doctl` to download a domain's data, delete it, switch to another account's access key, and quickly upload the same domain. This effectively can migrate a domain from one Digital Ocean account to another, minimizing downtime (sadly Digital Ocean currently doesn't offer a migration service themselves).
 
 ```sh
-TODO
+$ pwd
+/tmp/do-dns-migration-demo
+$ ls -l
+$ doctl auth list
+client
+default
+personal (current)
+$ do-dns download --dir .
+example.com
+redshed.net
+rentzsch.com
+water.lc
+$ ls -l
+-rw-r--r--  1 wolf  staff   662 Jan  9 21:51 example.com.do-dns.json
+-rw-r--r--  1 wolf  staff   335 Jan  9 21:51 example.com.zone.txt
+-rw-r--r--  1 wolf  staff  2225 Jan  9 21:51 redshed.net.do-dns.json
+-rw-r--r--  1 wolf  staff   849 Jan  9 21:51 redshed.net.zone.txt
+-rw-r--r--  1 wolf  staff   791 Jan  9 21:51 rentzsch.com.do-dns.json
+-rw-r--r--  1 wolf  staff   355 Jan  9 21:51 rentzsch.com.zone.txt
+$ doctl compute domain delete example.com
+Warning: Are you sure you want to delete this domain? (y/N) ? y
+$ doctl auth switch --context client
+Now using context [client] by default
+$ do-dns upload --file example.com.do-dns.json
+creating example.com
+  deleting prepopulated @ NS ns1.digitalocean.com resource record
+  deleting prepopulated @ NS ns2.digitalocean.com resource record
+  deleting prepopulated @ NS ns3.digitalocean.com resource record
+  deleting prepopulated @ A 159.203.207.84 resource record
+  creating @ NS ns1.digitalocean.com. resource record
+  creating @ NS ns2.digitalocean.com. resource record
+  creating @ NS ns3.digitalocean.com. resource record
+  creating @ A 159.203.207.84 resource record
+$ 
+
 ```
