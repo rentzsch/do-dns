@@ -10,9 +10,9 @@ import path from "path";
 //--
 
 export default {
-  command: "backup",
+  command: "download",
   describe: "Downloads all DNS information",
-  handler: backupCmd,
+  handler: downloadCmd,
   builder: {
     dir: {
       description: "Path to output directory",
@@ -23,12 +23,12 @@ export default {
   },
 } as CommandModule;
 
-type BackupArgs = Arguments & {
+type DownloadArgs = Arguments & {
   dir: string;
 };
 
-async function backupCmd(args: Arguments) {
-  const { dir: outputDirPath } = args as BackupArgs;
+async function downloadCmd(args: Arguments) {
+  const { dir: outputDirPath } = args as DownloadArgs;
 
   const digitalOceanWrapper = new DigitalOcean(defaultAccessToken());
   const domains = await digitalOceanWrapper.domains.getAll("", true);
