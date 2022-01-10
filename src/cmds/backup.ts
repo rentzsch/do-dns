@@ -54,9 +54,7 @@ async function backupCmd(args: Arguments) {
       };
     });
     // Remove redundant highest-level SOA record.
-    resourceRecords = resourceRecords.filter(
-      (rr) => !(rr.type === "SOA" && rr.name === "@")
-    );
+    resourceRecords = resourceRecords.filter((rr) => !(rr.type === "SOA"));
     const jsonOutput = {
       name: domainItr.name,
       ttl: domainItr.ttl,

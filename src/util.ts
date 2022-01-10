@@ -3,6 +3,37 @@ const yaml = require("js-yaml");
 import fs from "fs";
 import process from "process";
 
+export type DODomain = {
+  name: string;
+  ttl: number;
+  records: DOResourceRecord[];
+};
+
+export type DOResourceRecord = {
+  // Purposely leave behind id (transient), port, weight, and flags (always null) fields from DomainRecordRequestOptions.
+  type: string;
+  name: string;
+  data: string;
+  priority: number | null;
+  ttl: number;
+  tag: string | null;
+};
+
+export async function betterHTTPErrorReporting(f: Function) {
+  try {
+    return await f();
+  } catch (ex) {
+    const exAsAny: any = ex;
+    if (exAsAny.response !== undefined) {
+      console.error(
+        `ERR ${exAsAny.response.statusCode} ${exAsAny.response.statusMessage}`
+      );
+      console.error(`ERR ${exAsAny.response.body}`);
+    }
+    throw ex;
+  }
+}
+
 export function defaultAccessToken() {
   const configFilePath = defaultConfigYamlPath();
   const configYamlBuf = fs.readFileSync(configFilePath, "utf8");
@@ -27,19 +58,3 @@ function defaultConfigYamlPath() {
     return `${process.env.XDG_CONFIG_HOME}/doctl/config.yaml`;
   }
 }
-
-export type DODomain = {
-  name: string;
-  ttl: number;
-  records: DOResourceRecord[];
-};
-
-export type DOResourceRecord = {
-  // Purposely leave behind id (transient), port, weight, and flags (always null) fields from DomainRecordRequestOptions.
-  type: string;
-  name: string;
-  data: string;
-  priority: number | null;
-  ttl: number;
-  tag: string | null;
-};
