@@ -43,7 +43,7 @@ async function backupCmd(args: Arguments) {
       outputDirPath,
       `${domainItr.name}.do-dns.json`
     );
-    const resourceRecords: DOResourceRecord[] = domainRecs.map((x) => {
+    let resourceRecords: DOResourceRecord[] = domainRecs.map((x) => {
       return {
         type: x.type,
         name: x.name,
@@ -53,20 +53,14 @@ async function backupCmd(args: Arguments) {
         tag: x.tag,
       };
     });
+    // Remove redundant highest-level SOA record.
+    resourceRecords = resourceRecords.filter(
+      (rr) => !(rr.type === "SOA" && rr.name === "@")
+    );
     const jsonOutput = {
       name: domainItr.name,
       ttl: domainItr.ttl,
-      records: domainRecs.map((x) => {
-        // Purposely leave behind id, port, weight, and flags fields.
-        return {
-          type: x.type,
-          name: x.name,
-          data: x.data,
-          priority: x.priority,
-          ttl: x.ttl,
-          tag: x.tag,
-        };
-      }),
+      records: resourceRecords,
     };
     fs.writeFileSync(jsonOutputFilePath, JSON.stringify(jsonOutput, null, 2));
 
